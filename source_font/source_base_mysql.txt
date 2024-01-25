@@ -1,10 +1,82 @@
-hito2_cine_arte.sql
 -- Crear la base de datos
 CREATE DATABASE IF NOT EXISTS cine_arte_atrezo;
 DROP DATABASE cine_arte_atrezo;
 
 -- Seleccionar la base de datos
 USE cine_arte_atrezo;
+-- Crear la base de datos
+
+-- Crear usuarios
+CREATE USER 'Peter'@'localhost' IDENTIFIED BY 'curso';
+CREATE USER 'David'@'localhost' IDENTIFIED BY 'curso';
+CREATE USER 'Jose'@'localhost' IDENTIFIED BY 'curso';
+CREATE USER 'Álvaro'@'localhost' IDENTIFIED BY 'curso';
+-- Eliminar usuarios
+DROP USER 'Peter'@'localhost';
+DROP USER 'David'@'localhost';
+DROP USER 'Jose'@'localhost';
+DROP USER 'Álvaro'@'localhost';
+
+
+-- Otorgar permisos a los usuarios
+GRANT PROCESS ON *.* TO 'Peter'@'localhost';
+GRANT PROCESS ON *.* TO 'David'@'localhost';
+GRANT PROCESS ON *.* TO 'Jose'@'localhost';
+GRANT PROCESS ON *.* TO 'Álvaro'@'localhost';
+GRANT ALL PRIVILEGES ON cine_arte_atrezo.Cliente TO 'Peter'@'localhost';
+GRANT ALL PRIVILEGES ON cine_arte_atrezo.Producto TO 'David'@'localhost';
+GRANT ALL PRIVILEGES ON cine_arte_atrezo.Pedido TO 'Jose'@'localhost';
+GRANT ALL PRIVILEGES ON cine_arte_atrezo.Factura TO 'Álvaro'@'localhost';
+
+-- Crear tabla Rol
+CREATE TABLE Rol (
+    id_rol INT AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id_rol),
+    UNIQUE (nombre)
+);
+
+-- Insertar roles
+INSERT INTO Rol (nombre) VALUES
+('administrador'),
+('empleado');
+
+-- Crear tabla Usuario
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT,
+    nombre_usuario VARCHAR(50) NOT NULL,
+    clave VARCHAR(50) NOT NULL,
+    rol VARCHAR(50) NOT NULL,
+    id_rol INT,
+    PRIMARY KEY (id_usuario),
+    UNIQUE (nombre_usuario),
+    FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
+);
+
+-- Insertar datos de usuarios
+INSERT INTO Usuario (nombre_usuario, clave, rol, id_rol) VALUES
+('Peter', 'curso', 'administrador', 1),
+('David', 'curso', 'empleado', 2),
+('Jose', 'curso', 'empleado', 2),
+('Álvaro', 'curso', 'empleado', 2);
+
+-- Crear tabla InformacionUsuario
+CREATE TABLE InformacionUsuario (
+    id_usuario INT,
+    nombre_completo VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    telefono VARCHAR(15),
+    PRIMARY KEY (id_usuario),
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+);
+
+-- Insertar información de usuario
+INSERT INTO InformacionUsuario (id_usuario, nombre_completo, email, telefono) VALUES
+(1, 'Peter Admin', 'peter.admin@example.com', '+123456789'),
+(2, 'David Empleado', 'david.employee@example.com', '+987654321'),
+(3, 'Jose Empleado', 'jose.employee@example.com', '+555666777'),
+(4, 'Álvaro Empleado', 'alvaro.employee@example.com', '+999888777');
+
 
 -- Crear tabla Cliente
 CREATE TABLE Cliente (
@@ -253,6 +325,7 @@ SELECT Producto.*
 FROM Producto
 LEFT JOIN Producto_Pedido ON Producto.id_producto = Producto_Pedido.id_producto
 WHERE Producto_Pedido.id_producto IS NULL;
+
 
 
 
