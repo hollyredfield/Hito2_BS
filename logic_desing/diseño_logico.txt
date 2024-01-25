@@ -1,0 +1,79 @@
+Diseño Lógico de la Base de Datos
+Cliente (1:N Pedido):
+
+Cliente
+id_cliente (Clave Primaria)
+nombre
+apellidos
+numero_cuenta
+direccion
+telefono
+email
+Producto (N:M Pedido):
+
+Producto
+id_producto (Clave Primaria)
+nombre
+descripcion
+precio
+disponible
+categoria
+fecha_adquisicion
+Pedido (N:1 Cliente, N:M Producto):
+
+Pedido
+id_pedido (Clave Primaria)
+id_cliente (Clave Foránea referenciando a Cliente)
+fecha_pedido
+fecha_devolucion
+estado
+direccion_entrega
+detalles_envio
+Producto_Pedido (N:M Producto y Pedido):
+
+Producto_Pedido
+id_pedido (Clave Foránea referenciando a Pedido)
+id_producto (Clave Foránea referenciando a Producto)
+cantidad
+Factura (N:1 Pedido):
+
+Factura
+id_factura (Clave Primaria)
+id_pedido (Clave Foránea referenciando a Pedido)
+total
+fecha_emision
+metodo_pago
+detalles_facturacion
+Rol (1:N Usuario):
+
+Rol
+id_rol (Clave Primaria)
+nombre
+Usuario (N:1 Rol, 1:1 InformacionUsuario):
+
+Usuario
+id_usuario (Clave Primaria)
+nombre_usuario
+clave
+id_rol (Clave Foránea referenciando a Rol)
+InformacionUsuario (1:1 Usuario):
+
+InformacionUsuario
+id_usuario (Clave Primaria, Clave Foránea referenciando a Usuario)
+nombre_completo
+email
+telefono
+Explicación de las Relaciones
+Cliente - Pedido (1:N): Un cliente puede realizar varios pedidos, pero cada pedido pertenece a un único cliente.
+
+Producto - Pedido (N:M): Un pedido puede contener varios productos, y un producto puede estar presente en varios pedidos.
+
+Pedido - Producto_Pedido (N:M): Un pedido puede tener varios productos y, a su vez, un producto puede estar en varios pedidos. La tabla Producto_Pedido resuelve esta relación muchos a muchos.
+
+Pedido - Factura (N:1): Cada pedido tiene una factura asociada, pero una factura está relacionada con un solo pedido.
+
+Rol - Usuario (1:N): Un rol puede tener varios usuarios, pero cada usuario tiene un solo rol.
+
+Usuario - InformacionUsuario (1:1): Cada usuario tiene una única información asociada y viceversa.
+
+Este diseño lógico establece las relaciones entre las diferentes entidades de manera que refleje la estructura y las interacciones del sistema que representa la base de datos.
