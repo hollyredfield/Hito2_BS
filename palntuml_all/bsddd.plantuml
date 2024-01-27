@@ -1,0 +1,83 @@
+@startuml
+
+entity "Rol" {
+  +id_rol : INT
+  nombre : VARCHAR(50)
+  PRIMARY_KEY(id_rol)
+}
+
+entity "Usuario" {
+  +id_usuario : INT
+  nombre_usuario : VARCHAR(50)
+  clave : VARCHAR(50)
+  rol : VARCHAR(50)
+  id_rol : INT
+  PRIMARY_KEY(id_usuario)
+}
+
+entity "InformacionUsuario" {
+  +id_usuario : INT
+  nombre_completo : VARCHAR(255)
+  email : VARCHAR(255)
+  telefono : VARCHAR(15)
+  PRIMARY_KEY(id_usuario)
+}
+
+entity "Cliente" {
+  +id_cliente : INT
+  nombre : VARCHAR(255)
+  apellidos : VARCHAR(255)
+  numero_cuenta : VARCHAR(30)
+  direccion : VARCHAR(255)
+  telefono : VARCHAR(15)
+  email : VARCHAR(255)
+  PRIMARY_KEY(id_cliente)
+}
+
+entity "Producto" {
+  +id_producto : INT
+  nombre : VARCHAR(255)
+  descripcion : TEXT
+  precio : DECIMAL(10, 2)
+  disponible : BOOLEAN
+  categoria : VARCHAR(50)
+  fecha_adquisicion : DATE
+  PRIMARY_KEY(id_producto)
+}
+
+entity "Pedido" {
+  +id_pedido : INT
+  id_cliente : INT
+  fecha_pedido : TIMESTAMP
+  fecha_devolucion : DATE
+  estado : ENUM('pendiente', 'entregado', 'devuelto')
+  direccion_entrega : VARCHAR(255)
+  detalles_envio : TEXT
+  PRIMARY_KEY(id_pedido)
+}
+
+entity "Producto_Pedido" {
+  +id_pedido : INT
+  +id_producto : INT
+  cantidad : INT
+  PRIMARY_KEY(id_pedido, id_producto)
+}
+
+entity "Factura" {
+  +id_factura : INT
+  id_pedido : INT
+  total : DECIMAL(10, 2)
+  fecha_emision : TIMESTAMP
+  metodo_pago : VARCHAR(50)
+  detalles_facturacion : TEXT
+  PRIMARY_KEY(id_factura)
+}
+
+Usuario -- Rol : id_rol
+InformacionUsuario -- Usuario : id_usuario
+Pedido -- Cliente : id_cliente
+Producto_Pedido -- Pedido : id_pedido
+Producto_Pedido -- Producto : id_producto
+Factura -- Pedido : id_pedido
+
+@enduml

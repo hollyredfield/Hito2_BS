@@ -1,0 +1,15 @@
+@startuml
+start
+:Seleccionar Cliente;
+:Listar Productos Disponibles;
+:Crear Pedido;
+if (Pedido Exitoso?) then (Sí)
+  :Generar Factura;
+  :Actualizar Stock;
+  :Enviar Confirmación al Cliente;
+  stop
+else (No)
+  :Cancelar Pedido;
+  stop
+endif
+@enduml
