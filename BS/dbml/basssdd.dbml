@@ -1,0 +1,77 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table Rol {
+  id_rol int [pk, increment]
+  nombre varchar(50) [not null, unique]
+}
+
+Table Usuario {
+  id_usuario int [pk, increment]
+  nombre_usuario varchar(50) [not null, unique]
+  clave varchar(50) [not null]
+  rol varchar(50) [not null]
+  id_rol int
+}
+
+Table InformacionUsuario {
+  id_usuario int [pk]
+  nombre_completo varchar(255) [not null]
+  email varchar(255)
+  telefono varchar(15)
+}
+
+Table Cliente {
+  id_cliente int [pk, increment]
+  nombre varchar(255) [not null]
+  apellidos varchar(255) [not null]
+  numero_cuenta varchar(30) [not null, unique]
+  direccion varchar(255)
+  telefono varchar(15)
+  email varchar(255)
+}
+
+Table Producto {
+  id_producto int [pk, increment]
+  nombre varchar(255) [not null]
+  descripcion text
+  precio decimal(10, 2) [not null]
+  disponible boolean [not null]
+  categoria varchar(50)
+  fecha_adquisicion date
+}
+
+Table Pedido {
+  id_pedido int [pk, increment]
+  id_cliente int
+  fecha_pedido timestamp [default: `current_timestamp`]
+  fecha_devolucion date [not null]
+  estado varchar(255) [not null]
+  direccion_entrega varchar(255)
+  detalles_envio text
+}
+
+Table Producto_Pedido {
+  id_pedido int
+  id_producto int
+  cantidad int [not null]
+  primary key (id_pedido, id_producto)
+}
+
+Table Factura {
+  id_factura int [pk, increment]
+  id_pedido int
+  total decimal(10, 2) [not null]
+  fecha_emision timestamp [default: `current_timestamp`]
+  metodo_pago varchar(50)
+  detalles_facturacion text
+}
+
+// Foreign Keys
+// Foreign Keys
+Ref: "Rol"."id_rol" - "Usuario"."id_rol"
+Ref: "Usuario"."id_usuario" - "InformacionUsuario"."id_usuario"
+Ref: "Cliente"."id_cliente" - "Pedido"."id_cliente"
+Ref: "Pedido"."id_pedido" - "Producto_Pedido"."id_pedido"
+Ref: "Producto"."id_producto" - "Producto_Pedido"."id_producto"
+Ref: "Pedido"."id_pedido" - "Factura"."id_pedido"
