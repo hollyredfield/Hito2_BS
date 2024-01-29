@@ -27,7 +27,7 @@ GRANT ALL PRIVILEGES ON cine_arte_atrezo.Cliente TO 'Peter'@'localhost';
 GRANT ALL PRIVILEGES ON cine_arte_atrezo.Producto TO 'David'@'localhost';
 GRANT ALL PRIVILEGES ON cine_arte_atrezo.Pedido TO 'Jose'@'localhost';
 GRANT ALL PRIVILEGES ON cine_arte_atrezo.Factura TO 'Álvaro'@'localhost';
-
+REVOKE SELECT ON cine_arte_atrezo.Producto FROM 'David'@'localhost';
 -- Crear tabla Rol
 CREATE TABLE Rol (
     id_rol INT AUTO_INCREMENT,
@@ -332,4 +332,24 @@ WHERE Producto_Pedido.id_producto IS NULL;
 
 
 
+SELECT Pedido.*, Cliente.nombre AS nombre_cliente, Cliente.apellidos AS apellidos_cliente
+FROM Pedido
+JOIN Cliente ON Pedido.id_cliente = Cliente.id_cliente;
 
+SELECT SUM(total) AS total_ingresos FROM Factura;
+
+INSERT INTO Cliente (nombre, apellidos, numero_cuenta, direccion, telefono, email) VALUES
+('Test', 'Duplicate', 'ES12345678901234567890', 'Calle de Prueba 123', '+111222333', 'test.duplicate@example.com');
+
+
+SELECT * FROM cine_arte_atrezo.Producto;
+
+
+SELECT * FROM Producto WHERE disponible = TRUE;
+
+SELECT DISTINCT Cliente.*
+FROM Cliente
+JOIN Pedido ON Cliente.id_cliente = Pedido.id_cliente
+WHERE Pedido.estado = 'pendiente';
+
+SHOW ERRORS;
